@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ma Visite Virtuelle</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
+    <style>
+        #panorama { width: 100%; height: 500px; }
+    </style>
+</head>
+<body>
+    <div id="panorama"></div>
+    <script>
+        pannellum.viewer('panorama', {
+    "default": {
+        "firstScene": "entree", // La pièce où commence la visite
+        "sceneFadeDuration": 1000 // Transition douce de 1 seconde
+    },
+
+    "scenes": {
+        "entree": {
+            "title": "L'Entrée",
+            "panorama": "vatan_entree_sejour_comp.jpg", 
+            "hotSpots": [
+                {
+                    "pitch": -10, 
+                    "yaw": 20,
+                    "type": "scene",
+                    "text": "Aller à la cuisine",
+                    "sceneId": "cuisine"
+                }
+            ]
+        },
+        "cuisine": {
+            "title": "La cuisine",
+            "panorama": "Vatan_cuis_wc.jpg",
+            "hotSpots": [
+                {
+                    "pitch": -10,
+                    "yaw": 180,
+                    "type": "scene",
+                    "text": "Retourner à l'Entrée",
+                    "sceneId": "entree"
+                }
+            ]
+        }
+    }
+});
+    </script>
+</body>
+</html>
