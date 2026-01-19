@@ -6,19 +6,37 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
-        /* Pour le plein écran total sans marges */
         html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
         #panorama { width: 100%; height: 100vh; }
+        
+        /* Style pour le titre de la pièce */
+        .titre-piece {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1.1rem;
+            z-index: 1000;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
+
+    <div id="titre-affichage" class="titre-piece">L'Entrée</div>
     <div id="panorama"></div>
+
     <script>
-        pannellum.viewer('panorama', {
+        var viewer = pannellum.viewer('panorama', {
             "default": {
                 "firstScene": "entree",
                 "sceneFadeDuration": 1000,
-                "autoLoad": true // Charge l'image automatiquement
+                "autoLoad": true,
+                "hfov": 100
             },
 
             "scenes": {
@@ -41,7 +59,7 @@
                             "sceneId": "chambre_gauche"
                         }
                     ]
-                }, // <--- Virgule ajoutée ici
+                },
 
                 "cuisine": {
                     "title": "La cuisine",
@@ -52,12 +70,12 @@
                             "yaw": 135,
                             "type": "scene",
                             "text": "Retourner à l'Entrée",
-                            "sceneId": "entree"
+                            "sceneId": "entree",
                             "targetYaw": 180,
                             "targetPitch": 0
                         }
                     ]
-                }, // <--- Virgule ajoutée ici
+                },
 
                 "chambre_gauche": {
                     "title": "La chambre gauche",
@@ -71,7 +89,7 @@
                             "sceneId": "chambre_droite"
                         }
                     ]
-                }, // <--- Virgule ajoutée ici
+                },
 
                 "chambre_droite": {
                     "title": "La chambre droite",
@@ -81,14 +99,20 @@
                             "pitch": -10,
                             "yaw": -90,
                             "type": "scene",
-                            "text": "retourner à entree",
-                            "sceneId": "entree"
-                            "targetYaw": 180,
+                            "text": "Retourner à l'Entrée",
+                            "sceneId": "entree",
+                            "targetYaw": 180, // On regarde derrière soi en arrivant
                             "targetPitch": 0
                         }
                     ]
                 }
             }
+        });
+
+        // Mise à jour automatique du titre lors du changement de pièce
+        viewer.on('scenechange', function(sceneId) {
+            var title = viewer.getScene().title;
+            document.getElementById('titre-affichage').innerText = title;
         });
     </script>
 </body>
