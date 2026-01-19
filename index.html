@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
+        /* Pour le plein écran total sans marges */
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
         #panorama { width: 100%; height: 100vh; }
     </style>
 </head>
@@ -13,77 +15,77 @@
     <div id="panorama"></div>
     <script>
         pannellum.viewer('panorama', {
-    "default": {
-        "firstScene": "entree", // La pièce où commence la visite
-         "sceneFadeDuration": 1000 // Transition douce de 1 seconde
-    },
+            "default": {
+                "firstScene": "entree",
+                "sceneFadeDuration": 1000,
+                "autoLoad": true // Charge l'image automatiquement
+            },
 
-    "scenes": {
-        "entree": {
-            "title": "L'Entrée",
-            "panorama": "vatan_entree_sejour_comp.jpg", 
-            "hotSpots": [
-                {
-                    "pitch": -10, 
-                    "yaw": 0,
-                    "type": "scene",
-                    "text": "Aller à la cuisine",
-                    "sceneId": "cuisine"
-                    
+            "scenes": {
+                "entree": {
+                    "title": "L'Entrée",
+                    "panorama": "vatan_entree_sejour_comp.jpg", 
+                    "hotSpots": [
+                        {
+                            "pitch": -10, 
+                            "yaw": 0,
+                            "type": "scene",
+                            "text": "Aller à la cuisine",
+                            "sceneId": "cuisine"
+                        },
+                        {
+                            "pitch": -10, 
+                            "yaw": 90,
+                            "type": "scene",
+                            "text": "Aller à l'étage",
+                            "sceneId": "chambre_gauche"
+                        }
+                    ]
+                }, // <--- Virgule ajoutée ici
+
+                "cuisine": {
+                    "title": "La cuisine",
+                    "panorama": "vatan_cuis_wc_comp.jpg",
+                    "hotSpots": [
+                        {
+                            "pitch": -10,
+                            "yaw": 135,
+                            "type": "scene",
+                            "text": "Retourner à l'Entrée",
+                            "sceneId": "entree"
+                        }
+                    ]
+                }, // <--- Virgule ajoutée ici
+
+                "chambre_gauche": {
+                    "title": "La chambre gauche",
+                    "panorama": "vatan_ch_1_comp.jpg",
+                    "hotSpots": [
+                        {
+                            "pitch": -10,
+                            "yaw": 135,
+                            "type": "scene",
+                            "text": "Aller à chambre droite",
+                            "sceneId": "chambre_droite"
+                        }
+                    ]
+                }, // <--- Virgule ajoutée ici
+
+                "chambre_droite": {
+                    "title": "La chambre droite",
+                    "panorama": "vatan_ch_2_comp.jpg",
+                    "hotSpots": [
+                        {
+                            "pitch": -10,
+                            "yaw": -90,
+                            "type": "scene",
+                            "text": "retourner à entree",
+                            "sceneId": "entree"
+                        }
+                    ]
                 }
-            ],               
-             "hotSpots": [
-                {
-                    "pitch": -10, 
-                    "yaw": 90,
-                    "type": "scene",
-                    "text": "Aller à l'étage",
-                    "sceneId": "Chambre_gauche"
-                    
-                }
-            ]
-        },
-        "cuisine": {
-            "title": "La cuisine",
-            "panorama": "vatan_cuis_wc_comp.jpg",
-            "hotSpots": [
-                {
-                    "pitch": -10,
-                    "yaw": 135,
-                    "type": "scene",
-                    "text": "Retourner à l'Entrée",
-                    "sceneId": "entree"
-                }
-            ]
-        }
-       "chambre gauche": {
-            "title": "La chambre gauche",
-            "panorama": "vatan_ch_1_comp.jpg",
-            "hotSpots": [
-                {
-                    "pitch": -10,
-                    "yaw": 135,
-                    "type": "scene",
-                    "text": "Aller à chambre droite",
-                    "sceneId": "chambre droite"
-                }
-            ]
-        }
-        "chambre droite": {
-            "title": "La chambre droite",
-            "panorama": "vatan_ch_2_comp.jpg",
-            "hotSpots": [
-                {
-                    "pitch": -10,
-                    "yaw": -90,
-                    "type": "scene",
-                    "text": "retourner à entree",
-                    "sceneId": "entree"
-                }
-            ]
-        }
-    }
-});
+            }
+        });
     </script>
 </body>
 </html>
