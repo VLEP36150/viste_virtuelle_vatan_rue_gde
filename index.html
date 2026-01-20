@@ -156,7 +156,6 @@
                 }
             }
         });
-
         // 1. Fonction pour mettre à jour le texte du titre
 function mettreAJourTitre() {
     var configuration = viewer.getScene();
@@ -172,4 +171,5 @@ viewer.on('load', mettreAJourTitre);
 viewer.on('scenechange', mettreAJourTitre);
     </script>
 </body>
+    <div id="titre-affichage" class="titre-piece">Chargement...</div>
 </html>
