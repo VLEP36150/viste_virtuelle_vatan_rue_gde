@@ -57,7 +57,7 @@
 
     <div id="desc-panel">
         <strong>Appartement T3 Duplex - 22 rue Grande, VATAN</strong>
-        <p style="margin-top: 5px; font-size: 0.85rem; color: #ccc;">Ce logement comprend un séjour lumineux, une cuisine fonctionnelle et deux chambres à l'étage.</p>
+        <p style="margin-top: 5px; font-size: 0.85rem; color: #ccc;">Ce logement comprend un séjour lumineux ouvert sur cuisine et deux chambres et une salle d'eau à l'étage.</p>
     </div>
 
     <script>
@@ -67,21 +67,21 @@
                 "entree": {
                     "panorama": "vatan_entree_sejour_comp.jpg",
                     "hotSpots": [
-                        { "pitch": -10, "yaw": 0, "type": "scene", "text": "Cuisine", "sceneId": "cuisine", "targetYaw": 65 },
-                        { "pitch": 10, "yaw": -80, "type": "scene", "text": "Monter à l'étage", "sceneId": "chambre_gauche", "targetYaw": 0 }
+                        { "pitch": -10, "yaw": 0, "type": "scene", "text": "Cuisine", "sceneId": "cuisine", "targetYaw": 180 },
+                        { "pitch": -10, "yaw": -90, "type": "scene", "text": "Monter à l'étage", "sceneId": "chambre_gauche", "targetYaw": 0 }
                     ]
                 },
                 "cuisine": {
                     "panorama": "vatan_cuis_wc_comp.jpg",
-                    "hotSpots": [{ "pitch": -10, "yaw": 140, "type": "scene", "text": "Retour", "sceneId": "entree", "targetYaw": 0 }]
+                    "hotSpots": [{ "pitch": -10, "yaw": 135, "type": "scene", "text": "Retour", "sceneId": "entree", "targetYaw": 180 }]
                 },
                 "chambre_gauche": {
                     "panorama": "vatan_ch_1.jpg",
-                    "hotSpots": [{ "pitch": -10, "yaw": -170, "type": "scene", "text": "Autre Chambre", "sceneId": "chambre_droite", "targetYaw": -100 }]
+                    "hotSpots": [{ "pitch": -10, "yaw": -170, "type": "scene", "text": "Autre Chambre", "sceneId": "chambre_droite", "targetYaw": 180 }]
                 },
                 "chambre_droite": {
                     "panorama": "vatan_ch_2.jpg",
-                    "hotSpots": [{ "pitch": -10, "yaw": 0, "type": "scene", "text": "Descendre", "sceneId": "entree", "targetYaw": 0 }]
+                    "hotSpots": [{ "pitch": -15, "yaw": 0, "type": "scene", "text": "Descendre", "sceneId": "entree", "targetYaw": 180 }]
                 }
             }
         });
