@@ -169,6 +169,20 @@ viewer.on('load', mettreAJourTitre);
 
 // 3. On met à jour le titre à chaque fois qu'on change de pièce
 viewer.on('scenechange', mettreAJourTitre);
+        // Cette fonction va chercher le titre de la scène actuelle et l'affiche
+function mettreAJourLeTitre() {
+    // On attend 100ms pour être sûr que la scène est bien chargée
+    setTimeout(function() {
+        var titreScene = viewer.getScene().title;
+        var elementTitre = document.getElementById('titre-affichage');
+        
+        if (titreScene) {
+            elementTitre.innerText = titreScene;
+        }
+    }, 100);
+}
+
+
     </script>
 </body>
     <div id="titre-affichage" class="titre-piece">Chargement...</div>
