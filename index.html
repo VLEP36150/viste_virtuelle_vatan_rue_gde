@@ -6,30 +6,66 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
-        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+        /* 1. MISE EN PAGE DE BASE */
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; }
         #panorama { width: 100%; height: 100vh; }
 
-        /* Gros boutons pour mobile */
+        /* 2. ÉCRAN D'ACCUEIL (SPLASH SCREEN) */
+        #loading-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* L'image de fond est votre panorama d'entrée pour une transition fluide */
+            background: #222 url('vatan_entree_sejour_comp.jpg') center/cover no-repeat;
+            z-index: 9999;
+            display: flex; justify-content: center; align-items: center;
+            color: white; text-align: center;
+            transition: opacity 1s ease-out, visibility 1s;
+        }
+        #loading-screen::before {
+            content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.6); z-index: -1;
+        }
+        .loading-content h1 { font-family: 'Segoe UI', sans-serif; margin: 0; font-size: 2rem; }
+        .loading-content p { font-family: 'Segoe UI', sans-serif; font-size: 1.2rem; margin-top: 10px; }
+        .loader {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid #ffffff;
+            border-radius: 50%; width: 50px; height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 25px auto;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hidden { opacity: 0; visibility: hidden; }
+
+        /* 3. STYLE DES BOUTONS ET TITRES */
         .pnlm-hotspot-base { width: 48px !important; height: 48px !important; margin-left: -24px !important; margin-top: -24px !important; }
         .pnlm-scene-hotspot { background-color: rgba(255, 255, 255, 0.4) !important; border: 3px solid white !important; border-radius: 50% !important; }
-        
-        /* Style du titre Pannellum */
         .pnlm-title-box { background: rgba(0,0,0,0.7) !important; border-radius: 20px !important; padding: 5px 15px !important; }
     </style>
 </head>
 <body>
 
+    <div id="loading-screen">
+        <div class="loading-content">
+            <h1>22 rue Grande VATAN</h1>
+            <p>T3 Duplex - Visite Virtuelle</p>
+            <div class="loader"></div>
+            <span>Chargement de la visite...</span>
+        </div>
+    </div>
+
     <div id="panorama"></div>
 
     <script>
-        pannellum.viewer('panorama', {
+        // On stocke le viewer dans la variable 'viewer' pour pouvoir utiliser les événements
+        var viewer = pannellum.viewer('panorama', {
             "default": {
                 "firstScene": "entree",
-                "author": "Visite Virtuelle T3 Duplex",
+                "author": "Cliquez sur les cercles pour avancer",
                 "sceneFadeDuration": 1200,
                 "autoLoad": true,
                 "hfov": 100,
-                "pitch": 0,          // Commence à l'horizontale
+                "pitch": 0,
                 "showZoomCtrl": false,
                 "keyboardZoom": false
             },
@@ -39,70 +75,39 @@
                     "title": "L'Entrée & Séjour",
                     "panorama": "vatan_entree_sejour_comp.jpg", 
                     "hotSpots": [
-                        { 
-                            "pitch": -12, 
-                            "yaw": 0, 
-                            "type": "scene", 
-                            "text": "Cuisine", 
-                            "sceneId": "cuisine",
-                            "targetYaw": 180,
-                            "targetPitch": 0 // Force l'arrivée à l'horizontale
-                        },
-                        { 
-                            "pitch": -12, 
-                            "yaw": -90, 
-                            "type": "scene", 
-                            "text": "Aller à l'étage", 
-                            "sceneId": "chambre_gauche",
-                            "targetPitch": 0 
-                        }
+                        { "pitch": -12, "yaw": 0, "type": "scene", "text": "Cuisine", "sceneId": "cuisine", "targetYaw": 180, "targetPitch": 0 },
+                        { "pitch": -12, "yaw": -90, "type": "scene", "text": "Aller à l'étage", "sceneId": "chambre_gauche", "targetPitch": 0 }
                     ]
                 },
                 "cuisine": {
                     "title": "La Cuisine",
                     "panorama": "vatan_cuis_wc_comp.jpg",
                     "hotSpots": [
-                        { 
-                            "pitch": -12, 
-                            "yaw": 135, 
-                            "type": "scene", 
-                            "text": "Retour Entrée", 
-                            "sceneId": "entree", 
-                            "targetYaw": 180,
-                            "targetPitch": 0 
-                        }
+                        { "pitch": -12, "yaw": 135, "type": "scene", "text": "Retour Entrée", "sceneId": "entree", "targetYaw": 180, "targetPitch": 0 }
                     ]
                 },
                 "chambre_gauche": {
                     "title": "La Chambre Gauche",
                     "panorama": "vatan_ch_1.jpg",
                     "hotSpots": [
-                        { 
-                            "pitch": -12, 
-                            "yaw": -180, 
-                            "type": "scene", 
-                            "text": "Aller à Chambre Droite", 
-                            "sceneId": "chambre_droite",
-                            "targetPitch": 0,
-                            "targetYaw":180
-                        }
+                        { "pitch": -12, "yaw": -180, "type": "scene", "text": "Aller à Chambre Droite", "sceneId": "chambre_droite", "targetPitch": 0, "targetYaw": 180 }
                     ]
                 },
                 "chambre_droite": {
                     "title": "La Chambre Droite",
                     "panorama": "vatan_ch_2.jpg",
                     "hotSpots": [
-                        { 
-                            "pitch": -12, 
-                            "yaw": -10, 
-                            "type": "scene", 
-                            "text": "Retour Entrée", 
-                            "sceneId": "entree", 
-                            "targetYaw": 180,
-                            "targetPitch": 10 
-                        }
+                        { "pitch": -12, "yaw": -10, "type": "scene", "text": "Retour Entrée", "sceneId": "entree", "targetYaw": 180, "targetPitch": 0 }
                     ]
                 }
+            }
+        });
+
+        // Supprimer l'écran d'accueil une fois le premier panorama chargé
+        viewer.on('load', function() {
+            var screen = document.getElementById('loading-screen');
+            if (screen) {
+                screen.classList.add('hidden');
             }
         });
     </script>
