@@ -7,71 +7,53 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
         /* 1. Mise en page plein écran */
-    html, body { 
-        margin: 0; 
-        padding: 0; 
-        width: 100%; 
-        height: 100%; 
-        overflow: hidden; 
-    }
-    #panorama { 
-        width: 100%; 
-        height: 100vh; 
-    }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+        #panorama { width: 100%; height: 100vh; }
         
-    /* 2. Style pour le titre de la pièce (optimisé mobile) */
-    .titre-piece {
-        position: absolute;
-        top: 20px;
-        left: 20px;
-        background: rgba(0, 0, 0, 0.7);
-        color: white;
-        padding: 10px 20px;
-        border-radius: 20px; /* Plus arrondi, plus moderne */
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 1rem;
-        z-index: 1000;
-        pointer-events: none;
-        border: 1px solid rgba(255,255,255,0.2);
-    }
+        /* 2. Style pour le titre de la pièce */
+        .titre-piece {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: 1rem;
+            z-index: 1000;
+            pointer-events: none;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
 
-    /* 3. LES GROS BOUTONS MOBILES (Hotspots) */
-    /* On force la taille pour que ce soit facile à cliquer avec le pouce */
-    .pnlm-hotspot-base {
-        width: 48px !important;  
-        height: 48px !important;
-        margin-left: -24px !important;
-        margin-top: -24px !important;
-    }
-
-    /* Apparence visuelle des points de passage */
-    .pnlm-scene-hotspot {
-        background-color: rgba(255, 255, 255, 0.4) !important;
-        border: 3px solid white !important;
-        border-radius: 50% !important;
-        box-shadow: 0 0 15px rgba(0,0,0,0.3);
-    }
-
-    /* L'effet d'onde (pulse) pour attirer l'attention */
-    .pnlm-hotspot-base:after {
-        content: '';
-        display: block;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        border: 2px solid white;
-        animation: pulse-border 2s infinite;
-    }
-
-    @keyframes pulse-border {
-        0% { transform: scale(1); opacity: 1; }
-        100% { transform: scale(1.6); opacity: 0; }
-    }
+        /* 3. Gros boutons pour mobile */
+        .pnlm-hotspot-base {
+            width: 48px !important;  
+            height: 48px !important;
+            margin-left: -24px !important;
+            margin-top: -24px !important;
+        }
+        .pnlm-scene-hotspot {
+            background-color: rgba(255, 255, 255, 0.4) !important;
+            border: 3px solid white !important;
+            border-radius: 50% !important;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+        }
+        .pnlm-hotspot-base:after {
+            content: ''; display: block; width: 100%; height: 100%;
+            border-radius: 50%; border: 2px solid white;
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div id="titre-affichage" class="titre-piece">L'Entrée</div>
+    <div id="titre-affichage" class="titre-piece">Chargement...</div>
+    
     <div id="panorama"></div>
 
     <script>
@@ -88,102 +70,41 @@
                     "title": "L'Entrée",
                     "panorama": "vatan_entree_sejour_comp.jpg", 
                     "hotSpots": [
-                        {
-                            "pitch": -10, 
-                            "yaw": 0,
-                            "type": "scene",
-                            "text": "Aller à la cuisine",
-                            "sceneId": "cuisine",
-                            "targetYaw": 180,
-                            "targetPitch": 0
-                        },
-                        {
-                            "pitch": -10, 
-                            "yaw": -90,
-                            "type": "scene",
-                            "text": "Aller à l'étage",
-                            "sceneId": "chambre_gauche"
-                        }
+                        { "pitch": -10, "yaw": 0, "type": "scene", "text": "Aller à la cuisine", "sceneId": "cuisine", "targetYaw": 180 },
+                        { "pitch": -10, "yaw": -90, "type": "scene", "text": "Aller à l'étage", "sceneId": "chambre_gauche" }
                     ]
                 },
-
                 "cuisine": {
-                    "title": "La cuisine",
+                    "title": "La Cuisine",
                     "panorama": "vatan_cuis_wc_comp.jpg",
                     "hotSpots": [
-                        {
-                            "pitch": -10,
-                            "yaw": 135,
-                            "type": "scene",
-                            "text": "Retourner à l'Entrée",
-                            "sceneId": "entree",
-                            "targetYaw": 180,
-                            "targetPitch": 0
-                        }
+                        { "pitch": -10, "yaw": 135, "type": "scene", "text": "Retourner à l'Entrée", "sceneId": "entree", "targetYaw": 180 }
                     ]
                 },
-
                 "chambre_gauche": {
-                    "title": "chambre_gauche",
+                    "title": "La Chambre Gauche",
                     "panorama": "vatan_ch_1.jpg",
                     "hotSpots": [
-                        {
-                            "pitch": -10,
-                            "yaw": -180,
-                            "type": "scene",
-                            "text": "Aller à chambre droite",
-                            "sceneId": "chambre_droite",
-                            "targetYaw": 180,
-                            "targetPitch": 0
-                        }
+                        { "pitch": -10, "yaw": -180, "type": "scene", "text": "Aller à la chambre droite", "sceneId": "chambre_droite", "targetYaw": 180 }
                     ]
                 },
-
                 "chambre_droite": {
-                    "title": "chambre_droite",
+                    "title": "La Chambre Droite",
                     "panorama": "vatan_ch_2.jpg",
                     "hotSpots": [
-                        {
-                            "pitch":-10,
-                            "yaw": -10,
-                            "type": "scene",
-                            "text": "Retourner à l'Entrée",
-                            "sceneId": "entree",
-                            "targetYaw": 180, // On regarde derrière soi en arrivant
-                            "targetPitch": -10
-                        }
+                        { "pitch": -10, "yaw": -10, "type": "scene", "text": "Retourner à l'Entrée", "sceneId": "entree", "targetYaw": 180 }
                     ]
                 }
             }
         });
-        // 1. Fonction pour mettre à jour le texte du titre
-function mettreAJourTitre() {
-    var configuration = viewer.getScene();
-    if (configuration && configuration.title) {
-        document.getElementById('titre-affichage').innerText = configuration.title;
-    }
-}
 
-// 2. On met à jour le titre dès que la visite est prête
-viewer.on('load', mettreAJourTitre);
-
-// 3. On met à jour le titre à chaque fois qu'on change de pièce
-viewer.on('scenechange', mettreAJourTitre);
-        // Cette fonction va chercher le titre de la scène actuelle et l'affiche
-function mettreAJourLeTitre() {
-    // On attend 100ms pour être sûr que la scène est bien chargée
-    setTimeout(function() {
-        var titreScene = viewer.getScene().title;
-        var elementTitre = document.getElementById('titre-affichage');
-        
-        if (titreScene) {
-            elementTitre.innerText = titreScene;
-        }
-    }, 100);
-}
-
-
+        // FONCTION UNIQUE POUR METTRE À JOUR LE TITRE
+        viewer.on('load', function() {
+            var titre = viewer.getScene().title;
+            if (titre) {
+                document.getElementById('titre-affichage').innerText = titre;
+            }
+        });
     </script>
 </body>
-    <div id="titre-affichage" class="titre-piece">Chargement...</div>
 </html>
