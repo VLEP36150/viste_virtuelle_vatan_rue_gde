@@ -7,105 +7,126 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
     <style>
         html, body { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; background-color: #000; font-family: sans-serif; }
-        #panorama { width: 100%; height: 100vh; }
+        #main-container { display: flex; width: 100%; height: 100vh; position: relative; }
+        #panorama { flex: 1; height: 100%; }
 
-        /* MENU DU BAS */
+        /* --- ÉCRAN D'ACCUEIL --- */
+        #loading-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: #222 url('vatan_entree_sejour_comp.jpg') center/cover no-repeat;
+            z-index: 10000; display: flex; justify-content: center; align-items: center;
+            color: white; text-align: center; transition: opacity 1s;
+        }
+        #loading-screen::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: -1; }
+        .loader { border: 4px solid #f3f3f3; border-top: 4px solid #ffffff; border-radius: 50%; width: 40px; height: 40px; animation: spin 2s linear infinite; margin: 15px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .hidden { opacity: 0; visibility: hidden; }
+
+        /* --- PANNEAU DESCRIPTION (Fixe sur PC) --- */
+        #desc-panel {
+            width: 300px; height: 100%; background: rgba(0, 0, 0, 0.9); 
+            color: white; padding: 25px; box-sizing: border-box; 
+            border-left: 1px solid #444; z-index: 3000; transition: right 0.4s ease;
+        }
+
+        /* --- NAVIGATION BAS --- */
         .bottom-nav {
-            position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%);
-            display: flex; gap: 5px; z-index: 1000; width: 95%; justify-content: center;
+            position: absolute; bottom: 20px; left: 20px;
+            display: flex; gap: 8px; z-index: 1000;
         }
         .nav-btn {
             background: rgba(0, 0, 0, 0.85); color: white; border: 1px solid white;
-            padding: 12px 5px; border-radius: 8px; cursor: pointer; font-size: 0.75rem; flex: 1; text-align: center;
+            padding: 12px 15px; border-radius: 8px; cursor: pointer; font-size: 0.85rem;
         }
 
-        /* BOUTON INFOS */
-        #desc-toggle {
-            position: absolute; right: 0; top: 40%; transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.8); color: white; border: 1px solid white;
-            padding: 15px 8px; border-radius: 10px 0 0 10px; cursor: pointer; z-index: 2000;
-            writing-mode: vertical-rl; text-orientation: mixed;
-        }
+        /* --- BOUTON INFOS (Mobile) --- */
+        #desc-toggle { display: none; }
 
-        /* PANNEAU DESCRIPTION CACHÉ */
-        #desc-panel {
-            position: absolute; right: -100%; top: 0; width: 85%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); color: white; padding: 25px;
-            z-index: 3000; transition: right 0.4s ease; box-sizing: border-box;
+        @media (max-width: 768px) {
+            #desc-panel { position: absolute; right: -100%; width: 85%; }
+            #desc-panel.open { right: 0; }
+            #desc-toggle {
+                display: block; position: absolute; right: 0; top: 40%;
+                background: #000; color: #fff; border: 1px solid #fff;
+                padding: 15px 8px; border-radius: 10px 0 0 10px; z-index: 2000;
+                writing-mode: vertical-rl; cursor: pointer;
+            }
+            .bottom-nav { width: 95%; left: 2.5%; bottom: 10px; }
+            .nav-btn { flex: 1; padding: 10px 2px; font-size: 0.7rem; text-align: center; }
         }
-        #desc-panel.open { right: 0; }
-        .close-desc { background: white; color: black; padding: 8px 15px; border-radius: 5px; float: right; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div id="desc-toggle" onclick="toggleDesc()">INFOS</div>
+    <div id="loading-screen">
+        <div>
+            <h1>22 rue Grande, VATAN</h1>
+            <div class="loader"></div>
+            <p>Chargement de la visite...</p>
+        </div>
+    </div>
 
-    <div id="desc-panel">
-        <div class="close-desc" onclick="toggleDesc()">FERMER</div>
-        <br><br>
-        <h2>22 rue Grande, VATAN</h2>
-        <hr>
-        <p>Visite T3 Duplex</p>
+    <div id="main-container">
+        <div id="panorama"></div>
+
+        <div id="desc-toggle" onclick="toggleDesc()">INFOS</div>
+
+        <div id="desc-panel">
+            <h2 style="margin-top:0;">Description</h2>
+            <hr>
+            <p><strong>Appartement T3 Duplex</strong></p>
+            <p>Situé au 22 rue Grande, VATAN.</p>
+            <p>Ce bien offre un séjour lumineux au rez-de-chaussée, une cuisine fonctionnelle, et deux chambres confortables à l'étage.</p>
+            <ul>
+                <li>Surface : [X] m²</li>
+                <li>Chauffage individuel</li>
+                <li>Proche commerces</li>
+            </ul>
+            <button onclick="toggleDesc()" class="nav-btn" style="margin-top:10px; width:100%; display:none;" id="btn-fermer">FERMER</button>
+        </div>
     </div>
 
     <div class="bottom-nav">
         <div class="nav-btn" onclick="viewer.loadScene('entree', 0, 0)">Entrée</div>
-        <div class="nav-btn" onclick="viewer.loadScene('cuisine', 0, 0)">Cuisine</div>
+        <div class="nav-btn" onclick="viewer.loadScene('cuisine', 0, 60)">Cuisine</div>
         <div class="nav-btn" onclick="viewer.loadScene('chambre_gauche', 0, 0)">Ch. Gauche</div>
-        <div class="nav-btn" onclick="viewer.loadScene('chambre_droite', 0, 0)">Ch. Droite</div>
+        <div class="nav-btn" onclick="viewer.loadScene('chambre_droite', 0, -90)">Ch. Droite</div>
     </div>
-
-    <div id="panorama"></div>
 
     <script>
         var viewer = pannellum.viewer('panorama', {
-            "default": {
-                "firstScene": "entree",
-                "autoLoad": true,
-                "sceneFadeDuration": 1000,
-                "hfov": 100,
-                "pitch": 0
-            },
+            "default": { "firstScene": "entree", "autoLoad": true, "hfov": 100, "pitch": 0 },
             "scenes": {
                 "entree": {
                     "panorama": "vatan_entree_sejour_comp.jpg",
-                    "hotSpots": [
-                        { "pitch": -12, "yaw": 0, "type": "scene", "text": "Cuisine", "sceneId": "cuisine", "targetYaw": 0 }
-                    ]
+                    "hotSpots": [{ "pitch": -12, "yaw": 0, "type": "scene", "text": "Cuisine", "sceneId": "cuisine", "targetYaw": 60 }]
                 },
                 "cuisine": {
                     "panorama": "vatan_cuis_wc_comp.jpg",
-                    "hotSpots": [
-                        { "pitch": -12, "yaw": 135, "type": "scene", "text": "Retour", "sceneId": "entree", "targetYaw": 0 }
-                    ]
+                    "hotSpots": [{ "pitch": -12, "yaw": 135, "type": "scene", "text": "Retour", "sceneId": "entree", "targetYaw": 0 }]
                 },
                 "chambre_gauche": {
                     "panorama": "vatan_ch_1.jpg",
-                    "hotSpots": [
-                        { "pitch": -12, "yaw": -180, "type": "scene", "text": "Ch. Droite", "sceneId": "chambre_droite", "targetYaw": 0 }
-                    ]
+                    "hotSpots": [{ "pitch": -12, "yaw": -180, "type": "scene", "text": "Ch. Droite", "sceneId": "chambre_droite", "targetYaw": -90 }]
                 },
                 "chambre_droite": {
                     "panorama": "vatan_ch_2.jpg",
-                    "hotSpots": [
-                        { "pitch": -12, "yaw": -10, "type": "scene", "text": "Retour", "sceneId": "entree", "targetYaw": 0 }
-                    ]
+                    "hotSpots": [{ "pitch": -12, "yaw": -10, "type": "scene", "text": "Retour", "sceneId": "entree", "targetYaw": 0 }]
                 }
             }
+        });
+
+        viewer.on('load', function() {
+            document.getElementById('loading-screen').classList.add('hidden');
         });
 
         function toggleDesc() {
             document.getElementById('desc-panel').classList.toggle('open');
         }
-    </script>
-</body>
-</html>
-            }
-        });
 
-        function toggleDesc() {
-            document.getElementById('desc-panel').classList.toggle('open');
+        // Afficher le bouton fermer sur mobile
+        if(window.innerWidth < 768) {
+            document.getElementById('btn-fermer').style.display = 'block';
         }
     </script>
 </body>
